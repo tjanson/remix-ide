@@ -1,6 +1,5 @@
 var yo = require('yo-yo')
 var Treeview = require('../ui/TreeView')
-var modalDialog = require('../ui/modaldialog')
 var modalDialogCustom = require('../ui/modal-dialog-custom')
 var remixLib = require('remix-lib')
 var EventManager = remixLib.EventManager
@@ -33,24 +32,26 @@ function fileExplorer (localRegistry, files) {
   }
 
   // warn if file changed outside of Remix
-  function remixdDialog () {
-    return yo`<div>This file has been changed outside of Remix IDE.</div>`
-  }
+//  function remixdDialog () {
+//    return yo`<div>This file has been changed outside of Remix IDE.</div>`
+//  }
 
   this.files.event.register('fileExternallyChanged', (path, file) => {
     if (self._deps.config.get('currentFile') === path && self._deps.editor.currentContent() && self._deps.editor.currentContent() !== file.content) {
-      modalDialog(path + ' changed', remixdDialog(),
-        {
-          label: 'Keep the content displayed in Remix',
-          fn: () => {}
-        },
-        {
-          label: 'Replace by the new content',
-          fn: () => {
-            self._deps.editor.setText(file.content)
-          }
-        }
-      )
+      // TOM-OVERRIDE
+      // modalDialog(path + ' changed', remixdDialog(),
+      //   {
+      //     label: 'Keep the content displayed in Remix',
+      //     fn: () => {}
+      //   },
+      //   {
+      //     label: 'Replace by the new content',
+      //     fn: () => {
+      //       self._deps.editor.setText(file.content)
+      //     }
+      //   }
+      // )
+      self._deps.editor.setText(file.content)
     }
   })
 
